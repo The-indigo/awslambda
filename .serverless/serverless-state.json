@@ -175,7 +175,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/awslambda/dev/1690214464334-2023-07-24T16:01:04.334Z/awslambda.zip"
+                "S3Key": "serverless/awslambda/dev/1690216257942-2023-07-24T16:30:57.942Z/awslambda.zip"
               },
               "Handler": "index.handler",
               "Runtime": "nodejs18.x",
@@ -193,14 +193,14 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersion7GdimyJpR19gbEviaaUCZvbTGxi2gwDH9p9WCtSSfVI": {
+          "AppLambdaVersionG7JyPpZvvmT699DVl7DGWmDAsUJHpZI1wwREs5hm3s": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "ITANoDRI7SyfuEuY350CXBOoLwl/wbrM4igWZQOOih0="
+              "CodeSha256": "FU3gr1l8cNlhwtwJ5SHYagwQAu9vGmSWaa9pTDvSy6w="
             }
           },
           "ApiGatewayRestApi": {
@@ -325,7 +325,7 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1690214335170": {
+          "ApiGatewayDeployment1690216133933": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -388,7 +388,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersion7GdimyJpR19gbEviaaUCZvbTGxi2gwDH9p9WCtSSfVI"
+              "Ref": "AppLambdaVersionG7JyPpZvvmT699DVl7DGWmDAsUJHpZI1wwREs5hm3s"
             },
             "Export": {
               "Name": "sls-awslambda-dev-AppLambdaFunctionQualifiedArn"
@@ -527,7 +527,7 @@
         "timeout": 30,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersion7GdimyJpR19gbEviaaUCZvbTGxi2gwDH9p9WCtSSfVI"
+        "versionLogicalId": "AppLambdaVersionG7JyPpZvvmT699DVl7DGWmDAsUJHpZI1wwREs5hm3s"
       }
     },
     "configValidationMode": "warn",
@@ -549,7 +549,7 @@
     "artifact": "/Users/indigo/awslambda/.serverless/awslambda.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/awslambda/dev/1690214464334-2023-07-24T16:01:04.334Z",
+    "artifactDirectoryName": "serverless/awslambda/dev/1690216257942-2023-07-24T16:30:57.942Z",
     "artifact": "awslambda.zip"
   }
 }

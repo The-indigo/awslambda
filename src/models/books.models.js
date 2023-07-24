@@ -1,7 +1,7 @@
 class Book{
-    constructor(id,name,author,isAvailable){
+    constructor(id,title,author,isAvailable){
         this.id=id;
-        this.name=name;
+        this.title=title;
         this.author= author;
         this.isAvailable= isAvailable;
     }

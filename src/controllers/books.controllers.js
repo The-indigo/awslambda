@@ -7,22 +7,22 @@ const tableName = "books";
 
 // Create operation
 exports.createBook = async (req, res) => {
-  const { name, author, isAvailable } = req.body;
-  if (!name || !author || !isAvailable) {
+  const { title, author, isAvailable } = req.body;
+  if (!title || !author || !isAvailable) {
     return res
       .status(400)
       .json({ success: false, message: "All fields are required" });
   }
   const bookId = uuidv4();
 
-  const book = new Book(bookId, name, author, isAvailable);
+  const book = new Book(bookId, title, author, isAvailable);
   const params = {
     //Dynamodb  table name
     TableName: tableName,
     // Db fields with id as the dynamodb partition key
     Item: {
       id: book.id ,
-      name: book.name ,
+      title: book.title ,
       author: book.author,
       isAvailable: book.isAvailable,
     },
@@ -111,7 +111,7 @@ exports.getAllBooks = async (req, res) => {
 // Update operation
 exports.updateBook = async (req,res) => {
   const partitionKey= req.params.id
-  const { name, author, isAvailable } = req.body;
+  const { title, author, isAvailable } = req.body;
   try {
     const getParams = {
       TableName: tableName,
@@ -126,15 +126,12 @@ const params = {
     Key: {
       id: { S: partitionKey }, 
     },
-    UpdateExpression: 'SET #n = :name, author = :author, isAvailable = :isAvailable',
+    UpdateExpression: 'SET title = :title, author = :author, isAvailable = :isAvailable',
     ExpressionAttributeValues: {
-      ':name': name? name:bookItem.Item.name ,
+      ':title': title? title:bookItem.Item.title ,
       ':author': author ? author :bookItem.Item.author,
       ':isAvailable': isAvailable ? isAvailable:bookItem.Item.isAvailable,
     
-    },
-    ExpressionAttributeNames: {
-      '#n': 'name',
     },
     ReturnValues: 'UPDATED_NEW',
   };
