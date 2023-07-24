@@ -29,7 +29,7 @@ exports.createBook = async (req, res) => {
   };
 
   try {
-    await dynamoDB.putItem(params).promise();
+    await dynamoDB.put(params).promise();
     return res
       .status(200)
       .json({ success: true, message: "Book created successfully" });
@@ -57,14 +57,15 @@ exports.getBook = async (req, res) => {
   };
 
   try {
-    const data = await dynamoDB.getItem(params).promise();
+    const data = await dynamoDB.get(params).promise();
     if (!data.Item) {
       return res
-        .status(200)
+        .status(400)
         .json({ success: false, message: "Item not found" });
     }
     // Extract and return the relevant data from the 'data' object
-    return { success: true, data: data.Item };
+    return  res
+    .status(200).json( { success: true, data: data.Item });
   } catch (error) {
     console.error("Error fetching item:", error);
     return res
@@ -104,5 +105,59 @@ exports.getAllBooks = async (req, res) => {
       message: "Error getting items",
       error: error,
     });
+  }
+};
+
+// Update operation
+exports.updateBook = async (req,res) => {
+  const partitionKey= req.params.id
+  const { name, author, isAvailable } = req.body;
+  try {
+const bookItem= await this.getBook(partitionKey)
+if(bookItem.data){
+console.log(bookItem.data)
+}
+
+  // const params = {
+  //   TableName: tableName, 
+  //   Key: {
+  //     id: { S: partitionKey }, 
+  //   },
+  //   UpdateExpression: 'SET name = :name, author = :author, isAvailable = :isAvailable',
+  //   ExpressionAttributeValues: {
+  //     ':name': name,
+  //     ':author': author,
+  //     ':isAvailable': isAvailable,
+    
+  //   },
+  //   ReturnValues: 'UPDATED_NEW',
+  // };
+
+  
+  //   const data = await dynamoDB.update(params).promise();
+  //   // Extract and return the updated data from the 'data' object
+  //   return res.status(200).json({ success: true, data: data.Attributes });
+  } catch (error) {
+    console.error('Error updating item:', error);
+    return res.status(400).json({ success: false, message: 'Error updating item' });
+  }
+};
+
+// Delete operation
+exports.deleteBook = async (req,res) => {
+  const partitionKey= req.params.id
+  const params = {
+    TableName: tableName, 
+    Key: {
+      id: { S: partitionKey }, 
+    },
+  };
+
+  try {
+    await dynamoDB.delete(params).promise();
+    return res.status(200).json({ success: true, message: 'Item deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    return res.status(400).json({ success: false, message: 'Error deleting item' });
   }
 };
