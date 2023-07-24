@@ -1,0 +1,14 @@
+service: awslambda
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ca-central-1
+  timeout: 30
+functions:
+  app:
+    handler: index.handler
+    events:
+      - http: ANY /
+      - http: ANY /{proxy+}
+plugins:
+  - serverless-offline
