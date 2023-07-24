@@ -126,12 +126,15 @@ const params = {
     Key: {
       id: { S: partitionKey }, 
     },
-    UpdateExpression: 'SET name = :name, author = :author, isAvailable = :isAvailable',
+    UpdateExpression: 'SET #n = :name, author = :author, isAvailable = :isAvailable',
     ExpressionAttributeValues: {
       ':name': name? name:bookItem.Item.name ,
       ':author': author ? author :bookItem.Item.author,
       ':isAvailable': isAvailable ? isAvailable:bookItem.Item.isAvailable,
     
+    },
+    ExpressionAttributeNames: {
+      '#n': 'name',
     },
     ReturnValues: 'UPDATED_NEW',
   };
