@@ -4,10 +4,11 @@ const booksController= require('../controllers/books.controllers')
 
 
 // Create route
-router.post('/books', booksController.createBook)
+router.post('/', booksController.createBook)
 //read route
+router.get('/',booksController.getAllBooks)
 router.get('/:id',booksController.getBook)
-router.get('/books',booksController.getAllBooks)
+
 
 //update route
 router.put('/:id', booksController.updateBook)

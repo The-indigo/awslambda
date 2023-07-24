@@ -1,6 +1,6 @@
 const AWS = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
-const dynamoDB = new AWS.DynamoDB();
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const Book = require("../models/books.models");
 
 const tableName = "books";
@@ -21,10 +21,10 @@ exports.createBook = async (req, res) => {
     TableName: tableName,
     // Db fields with id as the dynamodb partition key
     Item: {
-      id: { S: book.id },
-      name: { S: book.name },
-      author: { S: book.author },
-      isAvailable: { BOOL: book.isAvailable },
+      id: book.id ,
+      name: book.name ,
+      author: book.author,
+      isAvailable: book.isAvailable,
     },
   };
 
@@ -52,7 +52,7 @@ exports.getBook = async (req, res) => {
   const params = {
     TableName: tableName,
     Key: {
-      id: { S: partitionKey },
+      id: partitionKey,
     },
   };
 
@@ -113,10 +113,18 @@ exports.updateBook = async (req,res) => {
   const partitionKey= req.params.id
   const { name, author, isAvailable } = req.body;
   try {
-const bookItem= await this.getBook(partitionKey)
-if(bookItem.data){
-console.log(bookItem.data)
-}
+    const getParams = {
+      TableName: tableName,
+      Key: {
+        id: partitionKey,
+      },
+    };
+const bookItem= await dynamoDB.get(getParams).promise();
+return res.json(bookItem, bookItem.Item)
+// if(bookItem.Item){
+
+// console.log(bookItem.Item)
+// }
 
   // const params = {
   //   TableName: tableName, 
@@ -149,7 +157,7 @@ exports.deleteBook = async (req,res) => {
   const params = {
     TableName: tableName, 
     Key: {
-      id: { S: partitionKey }, 
+      id: partitionKey, 
     },
   };
 
