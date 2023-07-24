@@ -120,31 +120,29 @@ exports.updateBook = async (req,res) => {
       },
     };
 const bookItem= await dynamoDB.get(getParams).promise();
-return res.json(bookItem, bookItem.Item)
-// if(bookItem.Item){
-
-// console.log(bookItem.Item)
-// }
-
-  // const params = {
-  //   TableName: tableName, 
-  //   Key: {
-  //     id: { S: partitionKey }, 
-  //   },
-  //   UpdateExpression: 'SET name = :name, author = :author, isAvailable = :isAvailable',
-  //   ExpressionAttributeValues: {
-  //     ':name': name,
-  //     ':author': author,
-  //     ':isAvailable': isAvailable,
+if(bookItem.Item){
+const params = {
+    TableName: tableName, 
+    Key: {
+      id: { S: partitionKey }, 
+    },
+    UpdateExpression: 'SET name = :name, author = :author, isAvailable = :isAvailable',
+    ExpressionAttributeValues: {
+      ':name': name? name:bookItem.Item.name ,
+      ':author': author ? author :bookItem.Item.author,
+      ':isAvailable': isAvailable ? isAvailable:bookItem.Item.isAvailable,
     
-  //   },
-  //   ReturnValues: 'UPDATED_NEW',
-  // };
+    },
+    ReturnValues: 'UPDATED_NEW',
+  };
 
   
-  //   const data = await dynamoDB.update(params).promise();
-  //   // Extract and return the updated data from the 'data' object
-  //   return res.status(200).json({ success: true, data: data.Attributes });
+    const data = await dynamoDB.update(params).promise();
+    // Extract and return the updated data from the 'data' object
+    return res.status(200).json({ success: true, data: data.Attributes });
+}
+
+  
   } catch (error) {
     console.error('Error updating item:', error);
     return res.status(400).json({ success: false, message: 'Error updating item' });
