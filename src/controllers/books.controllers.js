@@ -17,7 +17,7 @@ exports.createBook = async (req,res) => {
     const params = {
       //Dynamodb  table name
       TableName: 'books', 
-      // Db fields with partition key attributes
+      // Db fields with id as the dynamodb partition key 
       Item: {
         id: { S: book.id }, 
         name: { S: book.name },
